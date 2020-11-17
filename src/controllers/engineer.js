@@ -1,32 +1,41 @@
-const { getAllEngModel, getEngByIdModel, updateEngModel } = require('../models/engineer')
+const { getAllEngModel, getEngByIdModel, updateEngModel, getSearchEngModel } = require('../models/engineer')
 
 module.exports = {
 
   getAllEng: async (req, res) => {
     try {
-      const { search } = req.query
-
-      let searchKey = ''
+      let { search, limit, page, filter } = req.query
       let searchValue = ''
-
       if (typeof search === 'object') {
-        searchKey = Object.keys(search)[0]
         searchValue = Object.values(search)[0]
       } else {
-        searchKey = 'en_job_title'
         searchValue = search || ''
       }
-      const result = await getAllEngModel(searchKey, searchValue)
+      // const searchValue = Object.values(search)[0]
+      if (!limit) {
+        limit = 10
+      } else {
+        limit = parseInt(limit)
+      }
+      if (!page) {
+        page = 1
+      } else {
+        page = parseInt(page)
+      }
+      const offset = (page - 1) * limit
+
+      const result = await getSearchEngModel(searchValue, limit, offset, filter)
+
       if (result.length) {
         res.status(200).send({
           success: true,
-          message: 'Engineer List!',
+          message: 'list engineer',
           data: result
         })
       } else {
         res.status(404).send({
           success: false,
-          message: 'engineer not found!'
+          message: 'engineer not found'
         })
       }
     } catch (error) {

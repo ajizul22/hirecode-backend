@@ -108,26 +108,33 @@ module.exports = {
     try {
       const { skId } = req.params
 
-      const resultSelect = await getSkillByIdModul(skId)
+      if (req.body.en_id.trim() && req.body.sk_nama_skill.trim()) {
+        const resultSelect = await getSkillByIdModul(skId)
 
-      if (resultSelect.length) {
-        const resultUpdate = await updateSkillModel(skId, req.body)
+        if (resultSelect.length) {
+          const resultUpdate = await updateSkillModel(skId, req.body)
 
-        if (resultUpdate.affectedRows) {
-          res.status(200).send({
-            success: true,
-            message: 'update skill success'
-          })
+          if (resultUpdate.affectedRows) {
+            res.status(200).send({
+              success: true,
+              message: 'update skill success'
+            })
+          } else {
+            res.status(400).send({
+              success: false,
+              message: 'update skill failed'
+            })
+          }
         } else {
-          res.status(400).send({
+          res.status(404).send({
             success: false,
-            message: 'update skill failed'
+            message: 'skill not found!'
           })
         }
       } else {
-        res.status(404).send({
+        res.status(400).send({
           success: false,
-          message: 'skill not found!'
+          message: 'all fields must be fill'
         })
       }
     } catch (error) {

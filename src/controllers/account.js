@@ -78,24 +78,31 @@ module.exports = {
     try {
       const { acId } = req.params
 
-      const resultSelect = await getAcByIdModel(acId)
-      if (resultSelect.length) {
-        const resultUpdate = await updateAcModel(req.body, acId)
-        if (resultUpdate.affectedRows) {
-          res.status(200).send({
-            success: true,
-            message: 'account with id has been updated!'
-          })
+      if (req.body.ac_name.trim() && req.body.ac_email.trim() && req.body.ac_phone.trim() && req.body.ac_password.trim()) {
+        const resultSelect = await getAcByIdModel(acId)
+        if (resultSelect.length) {
+          const resultUpdate = await updateAcModel(req.body, acId)
+          if (resultUpdate.affectedRows) {
+            res.status(200).send({
+              success: true,
+              message: 'account with id has been updated!'
+            })
+          } else {
+            res.status(400).send({
+              success: false,
+              message: 'account failed to update'
+            })
+          }
         } else {
-          res.status(400).send({
+          res.status(404).send({
             success: false,
-            message: 'account failed to update'
+            message: 'account not found!'
           })
         }
       } else {
-        res.status(404).send({
+        res.status(400).send({
           success: false,
-          message: 'account not found!'
+          message: 'all fields must be fill!'
         })
       }
     } catch (error) {

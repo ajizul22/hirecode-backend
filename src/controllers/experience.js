@@ -1,4 +1,3 @@
-const e = require('express')
 const { createExModel, getAllExModel, getExByIdModel, deleteExModel, updateExModel, getExByEnIdModel } = require('../models/experience')
 
 module.exports = {
