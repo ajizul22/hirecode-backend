@@ -33,7 +33,7 @@ module.exports = {
   getCompanyByIdModel: (cnId) => {
     return new Promise((resolve, reject) => {
       db.query(`SELECT * FROM company WHERE cn_id = ${cnId}`, (err, result, fields) => {
-        if(!err) {
+        if (!err) {
           resolve(result)
         } else {
           reject(new Error(err))
@@ -42,15 +42,14 @@ module.exports = {
     })
   },
 
-  updateCompanyModel: (cnId, data) => {
+  updateCompanyModel: (cnId, setData) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE company
         SET ?
         WHERE cn_id = ${cnId}
       `
-
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

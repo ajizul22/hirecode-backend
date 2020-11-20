@@ -4,7 +4,14 @@ module.exports = {
 
   createProject: async (req, res) => {
     try {
-      const result = await createProjectModel(req.body)
+      const setData = {
+        cn_id: req.body.cn_id,
+        pj_nama_project: req.body.pj_nama_project,
+        pj_deskripsi: req.body.pj_deskripsi,
+        pj_deadline: req.body.pj_deadline,
+        pj_gambar: req.file === undefined ? '' : req.file.filename
+      }
+      const result = await createProjectModel(setData)
       if (result.affectedRows) {
         res.status(200).send({
           success: true,
@@ -14,6 +21,48 @@ module.exports = {
         res.status(400).send({
           success: false,
           message: 'failed to create project'
+        })
+      }
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: 'internal server error!'
+      })
+    }
+  },
+
+  updateProject: async (req, res) => {
+    try {
+      const { pjId } = req.params
+
+      const setData = {
+        pj_nama_project: req.body.pj_nama_project,
+        pj_deskripsi: req.body.pj_deskripsi,
+        pj_deadline: req.body.pj_deadline,
+        pj_updated_at: new Date(),
+        pj_gambar: req.file === undefined ? '' : req.file.filename
+      }
+
+      const resultSelect = await getProjectByIdModel(pjId)
+
+      if (resultSelect.length) {
+        const resultUpdate = await updateProjectModel(setData, pjId)
+
+        if (resultUpdate.affectedRows) {
+          res.status(200).send({
+            success: true,
+            message: 'project has been updated!'
+          })
+        } else {
+          res.status(400).send({
+            success: false,
+            message: 'project failed to update!'
+          })
+        }
+      } else {
+        res.status(404).send({
+          success: false,
+          message: 'project not found!'
         })
       }
     } catch (error) {
@@ -89,40 +138,6 @@ module.exports = {
           res.status(400).send({
             success: false,
             message: 'project failed to delete!'
-          })
-        }
-      } else {
-        res.status(404).send({
-          success: false,
-          message: 'project not found!'
-        })
-      }
-    } catch (error) {
-      res.status(500).send({
-        success: false,
-        message: 'internal server error!'
-      })
-    }
-  },
-
-  updateProject: async (req, res) => {
-    try {
-      const { pjId } = req.params
-
-      const resultSelect = await getProjectByIdModel(pjId)
-
-      if (resultSelect.length) {
-        const resultUpdate = await updateProjectModel(req.body, pjId)
-
-        if (resultUpdate.affectedRows) {
-          res.status(200).send({
-            success: true,
-            message: 'project has been updated!'
-          })
-        } else {
-          res.status(400).send({
-            success: false,
-            message: 'project failed to update!'
           })
         }
       } else {

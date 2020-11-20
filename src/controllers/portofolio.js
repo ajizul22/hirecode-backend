@@ -27,7 +27,17 @@ module.exports = {
 
   createPort: async (req, res) => {
     try {
-      const result = await createPortModel(req.body)
+      const setData = {
+        en_id: req.body.en_id,
+        pr_aplikasi: req.body.pr_aplikasi,
+        pr_deskripsi: req.body.pr_deskripsi,
+        pr_link_pub: req.body.pr_link_pub,
+        pr_link_repo: req.body.pr_link_repo,
+        pr_tp_kerja: req.body.pr_tp_kerja,
+        pr_tipe: req.body.pr_tipe,
+        pr_gambar: req.file === undefined ? '' : req.file.filename
+      }
+      const result = await createPortModel(setData)
 
       if (result.affectedRows) {
         res.status(200).send({
@@ -109,10 +119,18 @@ module.exports = {
   updatePort: async (req, res) => {
     try {
       const { portId } = req.params
-
+      const setData = {
+        pr_aplikasi: req.body.pr_aplikasi,
+        pr_deskripsi: req.body.pr_deskripsi,
+        pr_link_pub: req.body.pr_link_pub,
+        pr_link_repo: req.body.pr_link_repo,
+        pr_tp_kerja: req.body.pr_tp_kerja,
+        pr_tipe: req.body.pr_tipe,
+        pr_gambar: req.file === undefined ? '' : req.file.filename
+      }
       const resultSelect = await getPortByIdModel(portId)
       if (resultSelect.length) {
-        const resultUpdate = await updatePortModel(portId, req.body)
+        const resultUpdate = await updatePortModel(portId, setData)
 
         if (resultUpdate.affectedRows) {
           res.status(200).send({
@@ -148,13 +166,13 @@ module.exports = {
       if (result.length) {
         res.status(200).send({
           success: true,
-          message: 'list skill',
+          message: 'list portofolio',
           data: result
         })
       } else {
         res.status(404).send({
           success: false,
-          message: 'skill not found'
+          message: 'portofolio not found'
         })
       }
     } catch (error) {

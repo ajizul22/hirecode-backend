@@ -2,7 +2,7 @@ const db = require('../helpers/db')
 
 module.exports = {
 
-  createProjectModel: (data) => {
+  createProjectModel: (setData) => {
     return new Promise((resolve, reject) => {
       const query = `
             INSERT
@@ -10,7 +10,7 @@ module.exports = {
             SET ?
         `
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -56,7 +56,7 @@ module.exports = {
     })
   },
 
-  updateProjectModel: (data, pjId) => {
+  updateProjectModel: (setData, pjId) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE project 
@@ -64,7 +64,7 @@ module.exports = {
         WHERE pj_id = ${pjId}
       `
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

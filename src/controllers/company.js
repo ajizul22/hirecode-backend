@@ -53,10 +53,20 @@ module.exports = {
   updateCompany: async (req, res) => {
     try {
       const { cnId } = req.params
-
+      const setData = {
+        cn_perusahaan: req.body.cn_perusahaan,
+        cn_jabatan: req.body.cn_jabatan,
+        cn_bidang: req.body.cn_bidang,
+        cn_kota: req.body.cn_kota,
+        cn_deskripsi: req.body.cn_deskripsi,
+        cn_instagram: req.body.cn_instagram,
+        cn_linkedin: req.body.cn_linkedin,
+        cn_updated_at: new Date(),
+        cn_ft_profil: req.file === undefined ? '' : req.file.filename
+      }
       const resultSelect = await getCompanyByIdModel(cnId)
       if (resultSelect.length) {
-        const resultUpdate = await updateCompanyModel(cnId, req.body)
+        const resultUpdate = await updateCompanyModel(cnId, setData)
 
         if (resultUpdate.affectedRows) {
           res.status(200).send({

@@ -74,10 +74,18 @@ module.exports = {
   updateEng: async (req, res) => {
     try {
       const { enId } = req.params
+      const setData = {
+        en_job_title: req.body.en_job_title,
+        en_job_type: req.body.en_job_type,
+        en_domisili: req.body.en_domisili,
+        en_deskripsi: req.body.en_deskripsi,
+        en_update_at: new Date(),
+        en_ft_profil: req.file === undefined ? '' : req.file.filename
+      }
       const resultSelect = await getEngByIdModel(enId)
 
       if (resultSelect.length) {
-        const resultUpdate = await updateEngModel(enId, req.body)
+        const resultUpdate = await updateEngModel(enId, setData)
 
         if (resultUpdate.affectedRows) {
           res.status(200).send({

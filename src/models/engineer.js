@@ -215,7 +215,11 @@ module.exports = {
        ac.ac_name,
        en.en_job_title,
        en.en_job_type,
-       en.en_domisili
+       en.en_domisili,
+       en.en_deskripsi,
+       en.en_ft_profil,
+       en.en_created_at,
+       en.en_update_at
        FROM engineer en
        JOIN account ac
        ON (ac.ac_id = en.ac_id)
@@ -231,14 +235,14 @@ module.exports = {
     })
   },
 
-  updateEngModel: (enId, data) => {
+  updateEngModel: (enId, setData) => {
     return new Promise((resolve, reject) => {
       const query = `
       UPDATE engineer
       SET ?
       WHERE en_id = ${enId}
       `
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

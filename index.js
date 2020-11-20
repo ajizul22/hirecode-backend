@@ -1,9 +1,12 @@
 require('dotenv').config()
 const express = require('express')
-const db = require('./src/helpers/db')
 const bodyParser = require('body-parser')
 const app = express()
+const morgan = require('morgan')
+const cors = require('cors')
+
 const port = process.env.PORT
+
 const accountRouter = require('./src/routers/account')
 const engineerRouter = require('./src/routers/engineer')
 const skillRouter = require('./src/routers/skill')
@@ -23,6 +26,20 @@ app.use('/project', projectRouter)
 app.use('/company', companyRouter)
 app.use('/portofolio', portofolioRouter)
 app.use('/hire', hireRouter)
+app.use(morgan('dev'))
+app.use(cors())
+
+// config cors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  )
+  next()
+})
+
+app.use('/image', express.static('./uploads'))
 
 app.get('/', (req, res) => {
   res.send('backend HireCode2')

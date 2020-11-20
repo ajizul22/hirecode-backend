@@ -14,14 +14,14 @@ module.exports = {
     })
   },
 
-  createPortModel: (data) => {
+  createPortModel: (setData) => {
     return new Promise((resolve, reject) => {
       const query = `
       INSERT INTO portofolio
       SET ?
       `
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -55,7 +55,7 @@ module.exports = {
     })
   },
 
-  updatePortModel: (portId, data) => {
+  updatePortModel: (portId, setData) => {
     return new Promise((resolve, reject) => {
       const query = `
         UPDATE portofolio
@@ -63,7 +63,7 @@ module.exports = {
         WHERE pr_id = ${portId}
       `
 
-      db.query(query, data, (err, result, fields) => {
+      db.query(query, setData, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
