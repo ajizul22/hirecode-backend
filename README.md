@@ -1,6 +1,6 @@
 # android2-backend
 Beginner &amp; Intermediate Backend
-<h1 align="center">ExpressJS - #Nama_Projek RESTfull API</h1>
+<h1 align="center">ExpressJS - Hire Code RESTfull API</h1>
 
 #background_projek. [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
@@ -24,7 +24,7 @@ Beginner &amp; Intermediate Backend
 4. Turn on Web Server and MySQL can using Third-party tool like xampp, etc.
 5. Create a database with the name #nama_database, and Import file sql to **phpmyadmin**
 6. Open Postman desktop application or Chrome web app extension that has installed before
-7. Choose HTTP Method and enter request url.(ex. localhost:3000/)
+7. Choose HTTP Method and enter request url.(ex. localhost:4000/)
 8. You can see all the end point [here](#end-point)
 
 ## Set up .env file
@@ -37,9 +37,9 @@ DB_USER= YOUR_DB_USER
 DB_PASSWORD= YOUR_DB_PASSWORD
 DB_DATABASE= YOUR_DATABASE
 
-PORT=YUR_PORT
+PORT=4000
 
-JWT_KEY =YOUR_JWT_KEY
+JWT_KEY =codex
 ```
 
 
