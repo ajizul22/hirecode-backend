@@ -1,4 +1,4 @@
-# android2-backend
+# HireCode-Backend
 Beginner &amp; Intermediate Backend
 <h1 align="center">ExpressJS - Hire Code RESTfull API</h1>
 
