@@ -43,4 +43,5 @@ JWT_KEY =codex
 ```
 
 
-# Link Postman : LINK
+# Link Postman
+https://documenter.getpostman.com/view/13760820/TVmQdvd5
