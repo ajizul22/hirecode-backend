@@ -1,4 +1,5 @@
 const db = require('../helpers/db')
+const { getSkillByIdEnModel } = require('../models/skill')
 
 module.exports = {
 
@@ -40,6 +41,7 @@ module.exports = {
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
+        en.en_ft_profil,
         sk.sk_nama_skill
         FROM engineer en
         JOIN account ac
@@ -63,6 +65,7 @@ module.exports = {
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
+        en.en_ft_profil,
         sk.sk_nama_skill
         FROM engineer en
         JOIN account ac
@@ -86,6 +89,7 @@ module.exports = {
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
+        en.en_ft_profil,
         sk.sk_nama_skill
         FROM engineer en
         JOIN account ac
@@ -109,6 +113,7 @@ module.exports = {
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
+        en.en_ft_profil,
         sk.sk_nama_skill
         FROM engineer en
         JOIN account ac
@@ -132,6 +137,7 @@ module.exports = {
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
+        en.en_ft_profil,
         sk.sk_nama_skill
         FROM engineer en
         JOIN account ac
@@ -148,9 +154,27 @@ module.exports = {
         OFFSET ${offset}
       `
       }
-      db.query(query, (err, result, fields) => {
+      db.query(query, async (err, result, fields) => {
         if (!err) {
-          resolve(result)
+          const data = []
+
+          for (let i = 0; i < result.length; i++) {
+            const item = result[i]
+
+            const skill = await getSkillByIdEnModel(item.en_id)
+            data[i] = {
+              en_id: item.en_id,
+              ac_id: item.ac_id,
+              ac_name: item.ac_name,
+              en_job_title: item.en_job_title,
+              en_job_type: item.en_job_type,
+              en_domisili: item.en_domisili,
+              en_ft_profil: item.en_ft_profil,
+              en_skill: skill
+            }
+          }
+
+          resolve(data)
         } else {
           reject(new Error(err))
         }
@@ -180,8 +204,26 @@ module.exports = {
   //       LIMIT ${limit}
   //       OFFSET ${offset}
   //     `
-  //     db.query(query, (err, result, fields) => {
+  //     db.query(query, async (err, result, fields) => {
   //       if (!err) {
+  //         const data = []
+
+  //         for (let i = 0; i < result.length; i++) {
+  //           const item = result[i]
+
+  //           const skill = await getSkillByIdEnModel(item.en_id)
+  //           data[i] = {
+  //             en_id: item.en_id,
+  //             ac_id: item.ac_id,
+  //             ac_name: item.ac_name,
+  //             en_job_title: item.en_job_title,
+  //             en_job_type: item.en_job_type,
+  //             en_domicile: item.en_domicile,
+  //             en_profile: item.en_profile,
+  //             en_skill: skill
+  //           }
+  //         }
+
   //         resolve(result)
   //       } else {
   //         reject(new Error(err))
