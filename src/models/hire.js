@@ -83,6 +83,18 @@ module.exports = {
         }
       })
     })
+  },
+
+  deleteHireModel: (hrId) => {
+    return new Promise((resolve, reject) => {
+      db.query(`DELETE FROM hire WHERE hr_id = ${hrId}`, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 
 }

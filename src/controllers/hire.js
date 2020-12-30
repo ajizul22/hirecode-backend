@@ -1,4 +1,4 @@
-const { getHireModel, createHireModel, getHireByProjectIdModel, updateHireStatusModel, getHireByIdModel, getHireByEnIdModel } = require('../models/hire')
+const { getHireModel, createHireModel, getHireByProjectIdModel, updateHireStatusModel, getHireByIdModel, getHireByEnIdModel, deleteHireModel } = require('../models/hire')
 
 module.exports = {
 
@@ -22,6 +22,37 @@ module.exports = {
       res.status(500).send({
         success: false,
         message: 'internal server error'
+      })
+    }
+  },
+
+  deleteHire: async (req, res) => {
+    try {
+      const { hrId } = req.params
+      const resultSelect = await getHireByIdModel(hrId)
+      if (resultSelect.length) {
+        const resultDelete = await deleteHireModel(hrId)
+        if (resultDelete.affectedRows) {
+          res.status(200).send({
+            success: true,
+            message: 'hire has been deleted!'
+          })
+        } else {
+          res.status(400).send({
+            success: false,
+            message: 'failed to delete'
+          })
+        }
+      } else {
+        res.status(404).send({
+          success: false,
+          message: 'hire not found!'
+        })
+      }
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: 'internal server error!'
       })
     }
   },
