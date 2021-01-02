@@ -1,4 +1,4 @@
-const { getAllEngModel, getEngByIdModel, updateEngModel, getSearchEngModel, getEngIdByAcIdModel } = require('../models/engineer')
+const { getDetailEngModel, getEngByIdModel, updateEngModel, getSearchEngModel, getEngIdByAcIdModel } = require('../models/engineer')
 
 module.exports = {
 
@@ -25,6 +25,7 @@ module.exports = {
       const offset = (page - 1) * limit
 
       const result = await getSearchEngModel(searchValue, limit, offset, filter)
+      console.log(result)
 
       if (result.length) {
         res.status(200).send({
@@ -129,7 +130,44 @@ module.exports = {
         })
       }
     } catch (error) {
-      console.log(error)
+      res.status(500).send({
+        success: false,
+        message: 'internal server error!'
+      })
+    }
+  },
+
+  getDetailEng: async (req, res) => {
+    let { limit, page } = req.query
+
+    if (!limit) {
+      limit = 10
+    } else {
+      limit = parseInt(limit)
+    }
+    if (!page) {
+      page = 1
+    } else {
+      page = parseInt(page)
+    }
+    const offset = (page - 1) * limit
+
+    try {
+      const result = await getDetailEngModel(limit, offset)
+
+      if (result.length) {
+        res.status(200).send({
+          success: true,
+          message: 'list Engineer',
+          data: result
+        })
+      } else {
+        res.status(404).send({
+          success: false,
+          message: 'engineer not found'
+        })
+      }
+    } catch (error) {
       res.status(500).send({
         success: false,
         message: 'internal server error!'

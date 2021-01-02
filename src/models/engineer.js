@@ -3,25 +3,52 @@ const { getSkillByIdEnModel } = require('../models/skill')
 
 module.exports = {
 
-  getAllEngModel: (limit, offset) => {
+  getDetailEngModel: (limit, offset) => {
     return new Promise((resolve, reject) => {
       const query = `
-       SELECT en.en_id,
+       SELECT
+       en.en_id,
        ac.ac_id,
        ac.ac_name,
+       ac.ac_email,
+       ac.ac_phone,
        en.en_job_title,
        en.en_job_type,
-       en.en_domisili
+       en.en_domisili,
+       en.en_ft_profil,
+       sk.sk_nama_skill
        FROM engineer en
        JOIN account ac
        ON (ac.ac_id = en.ac_id)
+       LEFT JOIN skill sk
+       ON (en.en_id = sk.en_id)
+       GROUP BY ac.ac_name
        LIMIT ${limit}
        OFFSET ${offset}
       `
 
-      db.query(query, (err, result, fields) => {
+      db.query(query, async (err, result, fields) => {
         if (!err) {
-          resolve(result)
+          const data = []
+
+          for (let i = 0; i < result.length; i++) {
+            const item = result[i]
+
+            const skill = await getSkillByIdEnModel(item.en_id)
+            data[i] = {
+              en_id: item.en_id,
+              ac_id: item.ac_id,
+              ac_name: item.ac_name,
+              ac_email: item.ac_email,
+              ac_phone: item.ac_phone,
+              en_job_title: item.en_job_title,
+              en_job_type: item.en_job_type,
+              en_domisili: item.en_domisili,
+              en_ft_profil: item.en_ft_profil,
+              en_skill: skill
+            }
+          }
+          resolve(data)
         } else {
           reject(new Error(err))
         }
@@ -64,6 +91,8 @@ module.exports = {
         SELECT en.en_id,
         ac.ac_id,
         ac.ac_name,
+        ac.ac_email,
+        ac.ac_phone,
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
@@ -88,6 +117,8 @@ module.exports = {
         SELECT en.en_id,
         ac.ac_id,
         ac.ac_name,
+        ac.ac_email,
+        ac.ac_phone,
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
@@ -112,6 +143,8 @@ module.exports = {
         SELECT en.en_id,
         ac.ac_id,
         ac.ac_name,
+        ac.ac_email,
+        ac.ac_phone,
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
@@ -136,6 +169,8 @@ module.exports = {
         SELECT en.en_id,
         ac.ac_id,
         ac.ac_name,
+        ac.ac_email,
+        ac.ac_phone,
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
@@ -168,6 +203,8 @@ module.exports = {
               en_id: item.en_id,
               ac_id: item.ac_id,
               ac_name: item.ac_name,
+              ac_email: item.ac_email,
+              ac_phone: item.ac_phone,
               en_job_title: item.en_job_title,
               en_job_type: item.en_job_type,
               en_domisili: item.en_domisili,
