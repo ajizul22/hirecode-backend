@@ -57,6 +57,29 @@ module.exports = {
         }
       })
     })
+  },
+
+  getCompanyIdByAcIdModel: (acId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT 
+      ac.ac_id,
+      cn.cn_id,
+      ac.ac_name,
+      ac.ac_email
+      FROM account ac 
+      JOIN company cn 
+      ON ac.ac_id = cn.ac_id 
+      WHERE ac.ac_id = ${acId}`
+
+      db.query(query, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 
 }

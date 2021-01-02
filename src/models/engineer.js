@@ -38,6 +38,8 @@ module.exports = {
         SELECT en.en_id,
         ac.ac_id,
         ac.ac_name,
+        ac.ac_email,
+        ac.ac_phone,
         en.en_job_title,
         en.en_job_type,
         en.en_domisili,
@@ -255,6 +257,8 @@ module.exports = {
        SELECT en.en_id,
        ac.ac_id,
        ac.ac_name,
+       ac.ac_email,
+       ac.ac_phone,
        en.en_job_title,
        en.en_job_type,
        en.en_domisili,
@@ -285,6 +289,29 @@ module.exports = {
       WHERE en_id = ${enId}
       `
       db.query(query, setData, (err, result, fields) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
+  getEngIdByAcIdModel: (acId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+      SELECT 
+      en.en_id,
+      ac.ac_id,
+      ac.ac_name,
+      ac.ac_email
+      FROM account ac
+      JOIN engineer en
+      ON (en.ac_id = ac.ac_id)
+      WHERE ac.ac_id = ${acId}
+      `
+      db.query(query, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {

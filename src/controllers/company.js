@@ -1,4 +1,4 @@
-const { getCompanyModel, getCompanyByIdModel, updateCompanyModel } = require('../models/company')
+const { getCompanyModel, getCompanyByIdModel, updateCompanyModel, getCompanyIdByAcIdModel } = require('../models/company')
 
 module.exports = {
 
@@ -89,6 +89,31 @@ module.exports = {
       res.status(500).send({
         success: false,
         message: 'internal server error!'
+      })
+    }
+  },
+
+  getCompanyIdByAcId: async (req, res) => {
+    try {
+      const { acId } = req.params
+
+      const result = await getCompanyIdByAcIdModel(acId)
+      if (result.length) {
+        res.status(200).send({
+          success: true,
+          message: `company with account id ${acId}`,
+          data: result[0]
+        })
+      } else {
+        res.status(404).send({
+          success: false,
+          message: `company with account id ${acId} not found!`
+        })
+      }
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: 'internal server error'
       })
     }
   }

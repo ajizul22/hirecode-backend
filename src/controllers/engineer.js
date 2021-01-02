@@ -1,4 +1,4 @@
-const { getAllEngModel, getEngByIdModel, updateEngModel, getSearchEngModel } = require('../models/engineer')
+const { getAllEngModel, getEngByIdModel, updateEngModel, getSearchEngModel, getEngIdByAcIdModel } = require('../models/engineer')
 
 module.exports = {
 
@@ -105,6 +105,31 @@ module.exports = {
         })
       }
     } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: 'internal server error!'
+      })
+    }
+  },
+
+  getEngIdByAcId: async (req, res) => {
+    try {
+      const { acId } = req.params
+      const result = await getEngIdByAcIdModel(acId)
+      if (result.length) {
+        res.status(200).send({
+          success: true,
+          message: `Engineer with id ${acId}`,
+          data: result[0]
+        })
+      } else {
+        res.status(404).send({
+          success: false,
+          message: `engineer with id ${acId} not found`
+        })
+      }
+    } catch (error) {
+      console.log(error)
       res.status(500).send({
         success: false,
         message: 'internal server error!'
