@@ -108,11 +108,15 @@ module.exports = {
   updateHireStatus: async (req, res) => {
     try {
       const { hrId } = req.params
+      const setData = {
+        hr_status: req.body.hr_status,
+        hr_date_confirm: new Date()
+      }
 
       const resultSelect = await getHireByIdModel(hrId)
 
       if (resultSelect.length) {
-        const resultUpdate = await updateHireStatusModel(hrId, req.body)
+        const resultUpdate = await updateHireStatusModel(hrId, setData)
 
         if (resultUpdate.affectedRows) {
           res.status(200).send({
