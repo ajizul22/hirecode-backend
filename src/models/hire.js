@@ -75,7 +75,7 @@ module.exports = {
 
   getHireByEnIdModel: (enId) => {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM hire hr JOIN engineer en ON (hr.en_id = en.en_id) JOIN project pj ON (hr.pj_id = pj.pj_id)
+      db.query(`SELECT * FROM hire hr JOIN project pj ON (hr.pj_id = pj.pj_id)
       JOIN company cn ON (pj.cn_id = cn.cn_id) WHERE hr.en_id = ${enId}`, (err, result, fields) => {
         if (!err) {
           resolve(result)
