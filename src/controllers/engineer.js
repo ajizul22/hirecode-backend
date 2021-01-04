@@ -55,7 +55,7 @@ module.exports = {
       if (result.length) {
         res.status(200).send({
           success: true,
-          message: 'List Engineer',
+          message: `Data Engineer id ${enId}`,
           data: result
         })
       } else {
@@ -65,6 +65,7 @@ module.exports = {
         })
       }
     } catch (error) {
+      console.log(error)
       res.status(500).send({
         success: false,
         message: 'internal server error'
@@ -168,6 +169,7 @@ module.exports = {
         })
       }
     } catch (error) {
+      console.log(error)
       res.status(500).send({
         success: false,
         message: 'internal server error!'

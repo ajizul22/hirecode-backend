@@ -15,14 +15,17 @@ module.exports = {
        en.en_job_title,
        en.en_job_type,
        en.en_domisili,
+       en.en_deskripsi,
        en.en_ft_profil,
+       en.en_created_at,
+       en.en_update_at,
        sk.sk_nama_skill
        FROM engineer en
        JOIN account ac
        ON (ac.ac_id = en.ac_id)
        LEFT JOIN skill sk
        ON (en.en_id = sk.en_id)
-       GROUP BY ac.ac_name
+       GROUP BY ac.ac_id
        LIMIT ${limit}
        OFFSET ${offset}
       `
@@ -44,7 +47,10 @@ module.exports = {
               en_job_title: item.en_job_title,
               en_job_type: item.en_job_type,
               en_domisili: item.en_domisili,
+              en_deskripsi: item.en_deskripsi,
               en_ft_profil: item.en_ft_profil,
+              en_created_at: item.en_created_at,
+              en_update_at: item.en_update_at,
               en_skill: skill
             }
           }
