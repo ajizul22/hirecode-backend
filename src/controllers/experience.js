@@ -108,13 +108,13 @@ module.exports = {
   updateEx: async (req, res) => {
     try {
       const { exId } = req.params
-      const { enId, exPosisi, exPerusahaan, exStart, exEnd, exDesc } = req.body
+      const { exPosisi, exPerusahaan, exStart, exEnd, exDesc } = req.body
 
-      if (enId.trim() && exPosisi.trim() && exPerusahaan.trim() && exStart.trim() && exEnd.trim() && exDesc.trim()) {
+      if (exPosisi.trim() && exPerusahaan.trim() && exStart.trim() && exEnd.trim() && exDesc.trim()) {
         const resultSelect = await getExByIdModel(exId)
 
         if (resultSelect.length) {
-          const resultUpdate = await updateExModel(enId, exPosisi, exPerusahaan, exStart, exEnd, exDesc, exId)
+          const resultUpdate = await updateExModel(exPosisi, exPerusahaan, exStart, exEnd, exDesc, exId)
 
           if (resultUpdate.affectedRows) {
             res.status(200).send({

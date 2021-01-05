@@ -51,9 +51,9 @@ module.exports = {
     })
   },
 
-  updateExModel: (enId, exPosisi, exPerusahaan, exStart, exEnd, exDesc, exId) => {
+  updateExModel: (exPosisi, exPerusahaan, exStart, exEnd, exDesc, exId) => {
     return new Promise((resolve, reject) => {
-      db.query(`UPDATE experience SET en_id = ${enId}, ex_posisi = '${exPosisi}', ex_perusahaan = '${exPerusahaan}', ex_start = ${exStart}, 
+      db.query(`UPDATE experience SET ex_posisi = '${exPosisi}', ex_perusahaan = '${exPerusahaan}', ex_start = ${exStart}, 
       ex_end = ${exEnd}, ex_deskripsi = '${exDesc}' WHERE ex_id = ${exId}`, (err, result, fields) => {
         if (!err) {
           resolve(result)

@@ -108,7 +108,7 @@ module.exports = {
     try {
       const { skId } = req.params
 
-      if (req.body.en_id.trim() && req.body.sk_nama_skill.trim()) {
+      if (req.body.sk_nama_skill.trim()) {
         const resultSelect = await getSkillByIdModul(skId)
 
         if (resultSelect.length) {
