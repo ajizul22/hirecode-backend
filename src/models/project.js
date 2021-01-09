@@ -22,7 +22,7 @@ module.exports = {
 
   getProjectModel: () => {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM project', (err, result, fields) => {
+      db.query('SELECT * FROM project pj JOIN company cn ON (pj.cn_id = cn.cn_id)', (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
@@ -34,7 +34,7 @@ module.exports = {
 
   getProjectByIdModel: (pjId) => {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM project WHERE pj_id = ${pjId}`, (err, result, fields) => {
+      db.query(`SELECT * FROM project pj JOIN company cn ON (pj.cn_id = cn.cn_id) WHERE pj.pj_id = ${pjId}`, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
