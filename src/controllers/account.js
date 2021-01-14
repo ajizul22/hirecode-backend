@@ -95,7 +95,7 @@ module.exports = {
 
   updateAcc: async (req, res) => {
     const { acId } = req.params
-    const { acName, acEmail, acPhone, acPassword, acLevel } = req.body
+    const { acName, acEmail, acPhone, acPassword } = req.body
     const salt = bycrpt.genSaltSync(10)
     const encryptPassword = bycrpt.hashSync(acPassword, salt)
     const data = {
@@ -103,12 +103,11 @@ module.exports = {
       ac_email: acEmail,
       ac_phone: acPhone,
       ac_password: encryptPassword,
-      ac_level: acLevel,
       ac_update_at: new Date()
     }
 
     try {
-      if (acName.trim() && acEmail.trim() && acPhone.trim() && acPassword.trim() && acLevel.trim()) {
+      if (acName.trim() && acEmail.trim() && acPhone.trim() && acPassword.trim()) {
         const resultSelect = await getAcByIdModel(acId)
         if (resultSelect.length) {
           const resultUpdate = await updateAcModel(data, acId)

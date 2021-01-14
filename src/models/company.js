@@ -32,7 +32,7 @@ module.exports = {
 
   getCompanyByIdModel: (cnId) => {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM company WHERE cn_id = ${cnId}`, (err, result, fields) => {
+      db.query(`SELECT * FROM company cn JOIN account ac ON (cn.ac_id = ac.ac_id) WHERE cn_id = ${cnId}`, (err, result, fields) => {
         if (!err) {
           resolve(result)
         } else {
