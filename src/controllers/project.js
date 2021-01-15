@@ -34,16 +34,15 @@ module.exports = {
   updateProject: async (req, res) => {
     try {
       const { pjId } = req.params
-
-      const setData = {
-        pj_nama_project: req.body.pj_nama_project,
-        pj_deskripsi: req.body.pj_deskripsi,
-        pj_deadline: req.body.pj_deadline,
-        pj_updated_at: new Date(),
-        pj_gambar: req.file === undefined ? '' : req.file.filename
-      }
-
       const resultSelect = await getProjectByIdModel(pjId)
+      const image = req.file === undefined ? resultSelect[0].pj_gambar : req.file.filename
+
+      const data = req.body
+      const setData = {
+        ...data,
+        pj_updated_at: new Date(),
+        pj_gambar: image
+      }
 
       if (resultSelect.length) {
         const resultUpdate = await updateProjectModel(setData, pjId)

@@ -119,16 +119,14 @@ module.exports = {
   updatePort: async (req, res) => {
     try {
       const { portId } = req.params
-      const setData = {
-        pr_aplikasi: req.body.pr_aplikasi,
-        pr_deskripsi: req.body.pr_deskripsi,
-        pr_link_pub: req.body.pr_link_pub,
-        pr_link_repo: req.body.pr_link_repo,
-        pr_tp_kerja: req.body.pr_tp_kerja,
-        pr_tipe: req.body.pr_tipe,
-        pr_gambar: req.file === undefined ? '' : req.file.filename
-      }
       const resultSelect = await getPortByIdModel(portId)
+      const image = req.file === undefined ? resultSelect[0].pr_gambar : req.file.filename
+
+      const data = req.body
+      const setData = {
+        ...data,
+        pr_gambar: image
+      }
       if (resultSelect.length) {
         const resultUpdate = await updatePortModel(portId, setData)
 

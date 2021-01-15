@@ -53,18 +53,15 @@ module.exports = {
   updateCompany: async (req, res) => {
     try {
       const { cnId } = req.params
-      const setData = {
-        cn_perusahaan: req.body.cn_perusahaan,
-        cn_jabatan: req.body.cn_jabatan,
-        cn_bidang: req.body.cn_bidang,
-        cn_kota: req.body.cn_kota,
-        cn_deskripsi: req.body.cn_deskripsi,
-        cn_instagram: req.body.cn_instagram,
-        cn_linkedin: req.body.cn_linkedin,
-        cn_updated_at: new Date(),
-        cn_ft_profil: req.file === undefined ? '' : req.file.filename
-      }
       const resultSelect = await getCompanyByIdModel(cnId)
+      const image = req.file === undefined ? resultSelect[0].cn_ft_profil : req.file.filename
+
+      const data = req.body
+      const setData = {
+        ...data,
+        cn_updated_at: new Date(),
+        cn_ft_profil: image
+      }
       if (resultSelect.length) {
         const resultUpdate = await updateCompanyModel(cnId, setData)
 
@@ -92,6 +89,49 @@ module.exports = {
       })
     }
   },
+
+  // updateCompany: async (req, res) => {
+  //   try {
+  //     const { cnId } = req.params
+  //     const setData = {
+  //       cn_perusahaan: req.body.cn_perusahaan,
+  //       cn_jabatan: req.body.cn_jabatan,
+  //       cn_bidang: req.body.cn_bidang,
+  //       cn_kota: req.body.cn_kota,
+  //       cn_deskripsi: req.body.cn_deskripsi,
+  //       cn_instagram: req.body.cn_instagram,
+  //       cn_linkedin: req.body.cn_linkedin,
+  //       cn_updated_at: new Date(),
+  //       cn_ft_profil: req.file === undefined ? '' : req.file.filename
+  //     }
+  //     const resultSelect = await getCompanyByIdModel(cnId)
+  //     if (resultSelect.length) {
+  //       const resultUpdate = await updateCompanyModel(cnId, setData)
+
+  //       if (resultUpdate.affectedRows) {
+  //         res.status(200).send({
+  //           success: true,
+  //           message: 'update company success!'
+  //         })
+  //       } else {
+  //         res.status(400).send({
+  //           success: false,
+  //           message: 'update company failed!'
+  //         })
+  //       }
+  //     } else {
+  //       res.status(404).send({
+  //         success: false,
+  //         message: 'company not found!'
+  //       })
+  //     }
+  //   } catch (error) {
+  //     res.status(500).send({
+  //       success: false,
+  //       message: 'internal server error!'
+  //     })
+  //   }
+  // },
 
   getCompanyIdByAcId: async (req, res) => {
     try {
