@@ -346,6 +346,7 @@ module.exports = {
       const query = `
       SELECT 
       en.en_id,
+      en.en_job_title,
       ac.ac_id,
       ac.ac_name,
       ac.ac_email
