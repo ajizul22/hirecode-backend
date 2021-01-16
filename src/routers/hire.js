@@ -8,7 +8,7 @@ router.get('/', getHire)
 router.post('/', authorizationCompany, createHire)
 router.get('/project/:pjId', authorizationCompany, getHireByProjectId)
 router.put('/:hrId', authorizationEngineer, updateHireStatus)
-router.get('/engineer/:enId', authorizationEngineer, getHireByEnId)
+router.get('/engineer/:enId', getHireByEnId)
 router.delete('/:hrId', deleteHire)
 
 module.exports = router
