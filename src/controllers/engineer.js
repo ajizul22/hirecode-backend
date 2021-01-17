@@ -13,7 +13,7 @@ module.exports = {
       }
       // const searchValue = Object.values(search)[0]
       if (!limit) {
-        limit = 10
+        limit = 100
       } else {
         limit = parseInt(limit)
       }
@@ -142,7 +142,7 @@ module.exports = {
     let { limit, page } = req.query
 
     if (!limit) {
-      limit = 10
+      limit = 100
     } else {
       limit = parseInt(limit)
     }
